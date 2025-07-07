@@ -1,16 +1,23 @@
 package com.diogo.dev;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DatabaseInitializer {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("config.properties"));
+
         String jdbcUrl = "jdbc:mysql://localhost:3306/?useSSL=false";
-        String user = "root";
-        String password = "banquinPessoaL287@$";
+        String user = properties.getProperty("mysql_user");
+        String password = properties.getProperty("mysql_password");
 
         String createDatabaseSQL = "CREATE DATABASE IF NOT EXISTS login_credentials_rh";
         String createTableSQL = """
